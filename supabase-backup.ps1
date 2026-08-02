@@ -2,28 +2,27 @@ param(
     [string]$datestamp
 )
 
-$sqlFile  = "backups\supabase-$datestamp.sql"
-$logFile  = "backups\supabase-$datestamp.log"
-$runTime  = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+$sqlFile = "backups\supabase-$datestamp.sql"
+$logFile = "backups\supabase-$datestamp.log"
+$runTime = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
 
 if (-not (Test-Path "backups")) { New-Item -ItemType Directory -Path "backups" | Out-Null }
 
-# ── Log rotation (1 MB limit, keep 9 generations) ────────────
+# --- Log rotation (1 MB limit, keep 9 generations) ---
 $logRotateBytes = 1MB
 if ((Test-Path $logFile) -and (Get-Item $logFile).Length -ge $logRotateBytes) {
-    # Shift bak8→bak9, bak7→bak8, ..., bak1→bak2, then log→bak1
     for ($i = 9; $i -ge 2; $i--) {
         $src = "$logFile.bak$($i - 1)"
         $dst = "$logFile.bak$i"
         if (Test-Path $src) { Move-Item -Path $src -Destination $dst -Force }
     }
     Move-Item -Path $logFile -Destination "$logFile.bak1" -Force
-    Add-Content -Path $logFile -Value "Log rotated — previous log saved to: $logFile.bak1"
+    Add-Content -Path $logFile -Value "Log rotated -- previous log saved to: $logFile.bak1"
 }
 
-# ── Append run header to log ──────────────────────────────────
+# --- Append run header to log ---
 $divider = "=" * 60
-$header  = @"
+$header = @"
 
 $divider
 RUN: $runTime
@@ -37,7 +36,7 @@ function Write-Log {
     Add-Content -Path $logFile -Value $msg
 }
 
-# ── Check for password ────────────────────────────────────────
+# --- Check for password ---
 $password = $env:SUPABASE_DB_PASSWORD
 
 if (-not $password) {
@@ -48,13 +47,13 @@ if (-not $password) {
     exit 1
 }
 
-# ── Build connection URL ──────────────────────────────────────
+# --- Build connection URL ---
 $encodedPassword = [Uri]::EscapeDataString($password)
 $dbUrl = "postgresql://postgres.rnxaimywzatywqdzgrzj:${encodedPassword}@aws-0-us-east-1.pooler.supabase.com:6543/postgres"
 
 Write-Log "Connecting to Supabase (60 second timeout)..."
 
-# ── Run dump ──────────────────────────────────────────────────
+# --- Run dump ---
 $tempErr = [System.IO.Path]::GetTempFileName()
 
 $psi = New-Object System.Diagnostics.ProcessStartInfo
@@ -73,7 +72,7 @@ if (-not $proc.WaitForExit(60000)) {
     exit 1
 }
 
-# ── Log result ────────────────────────────────────────────────
+# --- Log result ---
 $errContent = (Get-Content $tempErr -Raw -ErrorAction SilentlyContinue).Trim()
 Remove-Item $tempErr -ErrorAction SilentlyContinue
 
@@ -88,7 +87,7 @@ if ($proc.ExitCode -eq 0) {
 } else {
     Write-Log "[WARN] Backup failed (exit code: $($proc.ExitCode))"
     if ($errContent) {
-        Write-Log "Error: $($errContent -replace "`n"," ")"
+        Write-Log "Error: $($errContent -replace `"`n`", ' ')"
     }
     Add-Content -Path $logFile -Value "RESULT: FAILED"
     exit 1
