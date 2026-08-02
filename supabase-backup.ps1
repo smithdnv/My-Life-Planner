@@ -85,13 +85,20 @@ if (-not $password) {
 }
 
 # --- Build connection URL and run pg_dump ---
-Write-Log "Connecting to Supabase (60 second timeout)..."
+# Connection params -- if these fail, check Project Settings -> Database -> Connection string
+# in your Supabase dashboard and update to match the "Session mode" values shown there.
+$pgHost = "db.rnxaimywzatywqdzgrzj.supabase.co"
+$pgPort = "5432"
+$pgUser = "postgres"
+$pgDb   = "postgres"
+
+Write-Log "Connecting to: $pgHost`:$pgPort (user: $pgUser, db: $pgDb)"
 
 # Pass connection params separately to avoid URL-encoding issues.
 # PGPASSWORD env var is the standard way to supply the password to pg_dump.
 $psi = New-Object System.Diagnostics.ProcessStartInfo
 $psi.FileName               = $pgDump
-$psi.Arguments              = "-h aws-0-us-east-1.pooler.supabase.com -p 5432 -U postgres.rnxaimywzatywqdzgrzj -d postgres -f `"$sqlFile`""
+$psi.Arguments              = "-h $pgHost -p $pgPort -U $pgUser -d $pgDb -f `"$sqlFile`" --sslmode=require"
 $psi.UseShellExecute        = $false
 $psi.CreateNoWindow         = $true
 $psi.RedirectStandardError  = $true
