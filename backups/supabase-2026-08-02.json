@@ -1,0 +1,17 @@
+{
+  "exported_at": "2026-08-02T22:48:32.118Z",
+  "supabase_url": "https://rnxaimywzatywqdzgrzj.supabase.co",
+  "tables": {
+    "profiles": null,
+    "life_domains": null,
+    "life_goals": null,
+    "priority_groups": null,
+    "projects": null,
+    "tasks": null,
+    "task_history": null,
+    "workspaces": null,
+    "workspace_members": null,
+    "onboarding_sessions": null,
+    "saved_views": null
+  }
+}

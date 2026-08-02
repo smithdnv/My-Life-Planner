@@ -93,3 +93,21 @@ Connecting to: db.rnxaimywzatywqdzgrzj.supabase.co:5432 (user: postgres, db: pos
 [WARN] Backup failed (exit code: 1)
 Error: pg_dump: error: could not translate host name "db.rnxaimywzatywqdzgrzj.supabase.co" to address: Name or service not known
 RESULT: FAILED
+
+============================================================
+RUN: 2026-08-02 17:48:31
+============================================================
+Exporting via Supabase REST API...
+Saved: backups\supabase-2026-08-02.json (408 bytes)
+[WARN] profiles: HTTP 403: {"code":"42501","details":null,"hint":"Grant the required privileges to the current role with: GRANT SELECT ON public.profiles TO service_role;","message":"permission denied for table profiles"}
+[WARN] life_domains: HTTP 403: {"code":"42501","details":null,"hint":"Grant the required privileges to the current role with: GRANT SELECT ON public.life_domains TO service_role;","message":"permission denied for table life_domains"}
+[WARN] life_goals: HTTP 403: {"code":"42501","details":null,"hint":"Grant the required privileges to the current role with: GRANT SELECT ON public.life_goals TO service_role;","message":"permission denied for table life_goals"}
+[WARN] priority_groups: HTTP 403: {"code":"42501","details":null,"hint":"Grant the required privileges to the current role with: GRANT SELECT ON public.priority_groups TO service_role;","message":"permission denied for table priority_groups"}
+[WARN] projects: HTTP 403: {"code":"42501","details":null,"hint":"Grant the required privileges to the current role with: GRANT SELECT ON public.projects TO service_role;","message":"permission denied for table projects"}
+[WARN] tasks: HTTP 403: {"code":"42501","details":null,"hint":"Grant the required privileges to the current role with: GRANT SELECT ON public.tasks TO service_role;","message":"permission denied for table tasks"}
+[WARN] task_history: HTTP 403: {"code":"42501","details":null,"hint":"Grant the required privileges to the current role with: GRANT SELECT ON public.task_history TO service_role;","message":"permission denied for table task_history"}
+[WARN] workspaces: HTTP 403: {"code":"42501","details":null,"hint":"Grant the required privileges to the current role with: GRANT SELECT ON public.workspaces TO service_role;","message":"permission denied for table workspaces"}
+[WARN] workspace_members: HTTP 403: {"code":"42501","details":null,"hint":"Grant the required privileges to the current role with: GRANT SELECT ON public.workspace_members TO service_role;","message":"permission denied for table workspace_members"}
+[WARN] onboarding_sessions: HTTP 403: {"code":"42501","details":null,"hint":"Grant the required privileges to the current role with: GRANT SELECT ON public.onboarding_sessions TO service_role;","message":"permission denied for table onboarding_sessions"}
+[WARN] saved_views: HTTP 403: {"code":"42501","details":null,"hint":"Grant the required privileges to the current role with: GRANT SELECT ON public.saved_views TO service_role;","message":"permission denied for table saved_views"}
+RESULT: FAILED
