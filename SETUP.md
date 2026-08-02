@@ -1,5 +1,17 @@
 # My Life Planner — Setup Guide
 
+## Saving & Backup
+
+Use the included `git-save.bat` script to commit and push all changes to GitHub in one step:
+
+```
+git-save "your message here"
+```
+
+Run this at the end of any work session, or any time you want a checkpoint. It automatically clears stale git lock files (a known issue with OneDrive + git) before committing.
+
+If you ever see a `fatal: cannot lock ref` error running plain git commands, delete the offending `.lock` file from the `.git` folder and retry.
+
 ## Step 1: Install dependencies
 
 Open a terminal in this folder and run:
