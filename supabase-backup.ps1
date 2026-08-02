@@ -98,12 +98,13 @@ Write-Log "Connecting to: $pgHost`:$pgPort (user: $pgUser, db: $pgDb)"
 # PGPASSWORD env var is the standard way to supply the password to pg_dump.
 $psi = New-Object System.Diagnostics.ProcessStartInfo
 $psi.FileName               = $pgDump
-$psi.Arguments              = "-h $pgHost -p $pgPort -U $pgUser -d $pgDb -f `"$sqlFile`" --sslmode=require"
+$psi.Arguments              = "-h $pgHost -p $pgPort -U $pgUser -d $pgDb -f `"$sqlFile`""
 $psi.UseShellExecute        = $false
 $psi.CreateNoWindow         = $true
 $psi.RedirectStandardError  = $true
 $psi.RedirectStandardOutput = $true
 $psi.EnvironmentVariables["PGPASSWORD"] = $password
+$psi.EnvironmentVariables["PGSSLMODE"]  = "require"
 
 $proc = [System.Diagnostics.Process]::Start($psi)
 
