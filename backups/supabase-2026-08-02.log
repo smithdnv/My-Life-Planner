@@ -14,3 +14,12 @@ Connecting to Supabase (60 second timeout)...
 [WARN] Backup failed (exit code: 1)
 Error: Dumping schemas from remote database... [31mfailed to run docker. Docker Desktop is a prerequisite for local development. Follow the official docs to install: https://docs.docker.com/desktop[39m Try rerunning the command with --debug to troubleshoot the error.
 RESULT: FAILED
+
+============================================================
+RUN: 2026-08-02 12:54:06
+============================================================
+[WARN] Skipped: pg_dump not found.
+To fix: install PostgreSQL client tools from https://www.postgresql.org/download/windows/
+During install, you only need 'Command Line Tools' -- not the full server.
+After installing, reopen Command Prompt and run git-save again.
+RESULT: SKIPPED (pg_dump not installed)
