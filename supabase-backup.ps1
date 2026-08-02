@@ -2,9 +2,9 @@ param(
     [string]$datestamp
 )
 
-$sqlFile = "backups\supabase-$datestamp.sql"
-$logFile = "backups\supabase-$datestamp.log"
-$runTime = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+$backupFile = "backups\supabase-$datestamp.json"
+$logFile    = "backups\supabase-$datestamp.log"
+$runTime    = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
 
 if (-not (Test-Path "backups")) { New-Item -ItemType Directory -Path "backups" | Out-Null }
 
@@ -36,75 +36,43 @@ function Write-Log {
     Add-Content -Path $logFile -Value $msg
 }
 
-# --- Find pg_dump (no Docker needed, unlike Supabase CLI) ---
-$pgDump = $null
-
-# Check PATH first
-$inPath = Get-Command pg_dump -ErrorAction SilentlyContinue
-if ($inPath) {
-    $pgDump = $inPath.Source
-} else {
-    # Search common PostgreSQL install locations on Windows
-    $searchRoots = @(
-        "$env:ProgramFiles\PostgreSQL",
-        "${env:ProgramFiles(x86)}\PostgreSQL",
-        "$env:ProgramW6432\PostgreSQL"
-    )
-    foreach ($root in $searchRoots) {
-        if (Test-Path $root) {
-            $found = Get-ChildItem "$root\*\bin\pg_dump.exe" -ErrorAction SilentlyContinue | Sort-Object -Descending | Select-Object -First 1
-            if ($found) { $pgDump = $found.FullName; break }
-        }
-    }
-}
-
-if (-not $pgDump) {
-    Write-Log "[WARN] Skipped: pg_dump not found."
-    Write-Log "To fix: install PostgreSQL client tools from https://www.postgresql.org/download/windows/"
-    Write-Log "During install, you only need 'Command Line Tools' -- not the full server."
-    Write-Log "After installing, reopen Command Prompt and run git-save again."
-    Add-Content -Path $logFile -Value "RESULT: SKIPPED (pg_dump not installed)"
+# --- Check for Node.js ---
+$node = Get-Command node -ErrorAction SilentlyContinue
+if (-not $node) {
+    Write-Log "[WARN] Skipped: node not found in PATH."
+    Write-Log "Node.js is required. Download from https://nodejs.org/"
+    Add-Content -Path $logFile -Value "RESULT: SKIPPED (node not installed)"
     exit 1
 }
 
-Write-Log "Using pg_dump: $pgDump"
-
-# --- Check for password ---
-$password = $env:SUPABASE_DB_PASSWORD
-if (-not $password) {
-    $password = [System.Environment]::GetEnvironmentVariable("SUPABASE_DB_PASSWORD", "User")
+# --- Check for secret key ---
+$secretKey = $env:SUPABASE_SECRET_KEY
+if (-not $secretKey) {
+    $secretKey = [System.Environment]::GetEnvironmentVariable("SUPABASE_SECRET_KEY", "User")
 }
 
-if (-not $password) {
-    Write-Log "[WARN] Skipped: SUPABASE_DB_PASSWORD environment variable not set."
-    Write-Log "To fix: run this once in Command Prompt (then reopen it):"
-    Write-Log "  setx SUPABASE_DB_PASSWORD `"your-database-password`""
-    Write-Log "Find your password: Supabase dashboard -> Project Settings -> Database"
-    Add-Content -Path $logFile -Value "RESULT: SKIPPED (no password)"
+if (-not $secretKey) {
+    Write-Log "[WARN] Skipped: SUPABASE_SECRET_KEY environment variable not set."
+    Write-Log "Run once in Command Prompt, then reopen it:"
+    Write-Log "  setx SUPABASE_SECRET_KEY `"your-secret-key`""
+    Write-Log "Find it: Supabase dashboard -> Project Settings -> API -> Secret key"
+    Add-Content -Path $logFile -Value "RESULT: SKIPPED (no secret key)"
     exit 1
 }
 
-# --- Build connection URL and run pg_dump ---
-# Connection params -- if these fail, check Project Settings -> Database -> Connection string
-# in your Supabase dashboard and update to match the "Session mode" values shown there.
-$pgHost = "db.rnxaimywzatywqdzgrzj.supabase.co"
-$pgPort = "5432"
-$pgUser = "postgres"
-$pgDb   = "postgres"
+# --- Run export ---
+Write-Log "Exporting via Supabase REST API..."
 
-Write-Log "Connecting to: $pgHost`:$pgPort (user: $pgUser, db: $pgDb)"
+$scriptPath = Join-Path $PSScriptRoot "supabase-export.js"
 
-# Pass connection params separately to avoid URL-encoding issues.
-# PGPASSWORD env var is the standard way to supply the password to pg_dump.
 $psi = New-Object System.Diagnostics.ProcessStartInfo
-$psi.FileName               = $pgDump
-$psi.Arguments              = "-h $pgHost -p $pgPort -U $pgUser -d $pgDb -f `"$sqlFile`""
+$psi.FileName               = $node.Source
+$psi.Arguments              = "`"$scriptPath`" `"$backupFile`""
 $psi.UseShellExecute        = $false
 $psi.CreateNoWindow         = $true
-$psi.RedirectStandardError  = $true
 $psi.RedirectStandardOutput = $true
-$psi.EnvironmentVariables["PGPASSWORD"] = $password
-$psi.EnvironmentVariables["PGSSLMODE"]  = "require"
+$psi.RedirectStandardError  = $true
+$psi.EnvironmentVariables["SUPABASE_SECRET_KEY"] = $secretKey
 
 $proc = [System.Diagnostics.Process]::Start($psi)
 
@@ -115,22 +83,19 @@ if (-not $proc.WaitForExit(60000)) {
     exit 1
 }
 
-$errRaw     = $proc.StandardError.ReadToEnd()
-$errContent = if ($errRaw) { $errRaw.Trim() } else { "" }
+$stdout = $proc.StandardOutput.ReadToEnd().Trim()
+$stderr = $proc.StandardError.ReadToEnd().Trim()
+$combined = @($stdout, $stderr) | Where-Object { $_ } | ForEach-Object { $_.Split("`n") }
+
+foreach ($line in $combined) {
+    $trimmed = $line.Trim()
+    if ($trimmed) { Write-Log $trimmed }
+}
 
 if ($proc.ExitCode -eq 0) {
-    $size = (Get-Item $sqlFile -ErrorAction SilentlyContinue).Length
-    Write-Log "[OK] Saved: $sqlFile ($size bytes)"
     Add-Content -Path $logFile -Value "RESULT: SUCCESS"
-    if ($errContent) {
-        Add-Content -Path $logFile -Value "NOTES: $errContent"
-    }
     exit 0
 } else {
-    Write-Log "[WARN] Backup failed (exit code: $($proc.ExitCode))"
-    if ($errContent) {
-        Write-Log "Error: $($errContent -replace [char]10, ' ')"
-    }
     Add-Content -Path $logFile -Value "RESULT: FAILED"
     exit 1
 }
