@@ -65,25 +65,8 @@ if %errorlevel%==0 (
 :step3
 echo.
 echo [3/3] Backing up Supabase database ^(60 second timeout^)...
-echo       Please wait...
 
-if not exist "backups" mkdir backups
-
-:: Use PowerShell to run with a timeout
-powershell -NonInteractive -Command ^
-  "$proc = Start-Process 'npx' -ArgumentList 'supabase db dump --project-id rnxaimywzatywqdzgrzj' -RedirectStandardOutput 'backups\supabase-%datestamp%.sql' -RedirectStandardError 'backups\supabase-%datestamp%-error.log' -NoNewWindow -PassThru; ^
-  if (-not $proc.WaitForExit(60000)) { ^
-    $proc.Kill(); ^
-    Write-Host '      [WARN] Supabase backup timed out after 60 seconds and was cancelled.'; ^
-    Write-Host '      Tip: Run \"npx supabase login\" if not authenticated, then retry.'; ^
-    exit 1 ^
-  } elseif ($proc.ExitCode -eq 0) { ^
-    Write-Host '      [OK] Database backup saved: backups\supabase-%datestamp%.sql' ^
-  } else { ^
-    Write-Host '      [WARN] Supabase backup failed. Check backups\supabase-%datestamp%-error.log'; ^
-    exit 1 ^
-  }"
-
+powershell -NonInteractive -ExecutionPolicy Bypass -File "supabase-backup.ps1" -datestamp "%datestamp%"
 if %errorlevel% neq 0 set ERRORS=1
 
 :: ─── SUMMARY ─────────────────────────────────────────────────
