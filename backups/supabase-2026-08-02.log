@@ -1,0 +1,8 @@
+
+============================================================
+RUN: 2026-08-02 12:50:47
+============================================================
+[WARN] Skipped: SUPABASE_DB_PASSWORD environment variable not set.
+To fix: run this once in Command Prompt (then reopen it):
+  setx SUPABASE_DB_PASSWORD "your-database-password"
+Find your password: Supabase dashboard -> Project Settings -> Database

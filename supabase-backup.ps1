@@ -37,7 +37,12 @@ function Write-Log {
 }
 
 # --- Check for password ---
+# $env: only reflects the session's inherited env; if setx was run in the same
+# Command Prompt window, fall back to reading the registry directly.
 $password = $env:SUPABASE_DB_PASSWORD
+if (-not $password) {
+    $password = [System.Environment]::GetEnvironmentVariable("SUPABASE_DB_PASSWORD", "User")
+}
 
 if (-not $password) {
     Write-Log "[WARN] Skipped: SUPABASE_DB_PASSWORD environment variable not set."
