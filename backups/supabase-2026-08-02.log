@@ -57,3 +57,12 @@ Connecting to Supabase (60 second timeout)...
 [WARN] Backup failed (exit code: 1)
 Error: pg_dump: error: could not translate host name "db.rnxaimywzatywqdzgrzj.supabase.co" to address: Name or service not known
 RESULT: FAILED
+
+============================================================
+RUN: 2026-08-02 13:08:49
+============================================================
+Using pg_dump: C:\Program Files\PostgreSQL\18\bin\pg_dump.exe
+Connecting to Supabase (60 second timeout)...
+[WARN] Backup failed (exit code: 1)
+Error: pg_dump: error: connection to server at "aws-0-us-east-1.pooler.supabase.com" (44.208.221.186), port 5432 failed: FATAL:  (ENOTFOUND) tenant/user postgres.rnxaimywzatywqdzgrzj not found connection to server at "aws-0-us-east-1.pooler.supabase.com" (44.208.221.186), port 5432 failed: FATAL:  (ENOTFOUND) tenant/user postgres.rnxaimywzatywqdzgrzj not found
+RESULT: FAILED

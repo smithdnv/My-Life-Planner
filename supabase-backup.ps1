@@ -85,19 +85,18 @@ if (-not $password) {
 }
 
 # --- Build connection URL and run pg_dump ---
-$encodedPassword = [Uri]::EscapeDataString($password)
-# Session pooler (port 5432) -- pg_dump needs session mode; transaction pooler (6543) does not work.
-$dbUrl = "postgresql://postgres.rnxaimywzatywqdzgrzj:${encodedPassword}@aws-0-us-east-1.pooler.supabase.com:5432/postgres"
-
 Write-Log "Connecting to Supabase (60 second timeout)..."
 
+# Pass connection params separately to avoid URL-encoding issues.
+# PGPASSWORD env var is the standard way to supply the password to pg_dump.
 $psi = New-Object System.Diagnostics.ProcessStartInfo
 $psi.FileName               = $pgDump
-$psi.Arguments              = "`"$dbUrl`" -f `"$sqlFile`" --no-password"
+$psi.Arguments              = "-h aws-0-us-east-1.pooler.supabase.com -p 5432 -U postgres.rnxaimywzatywqdzgrzj -d postgres -f `"$sqlFile`""
 $psi.UseShellExecute        = $false
 $psi.CreateNoWindow         = $true
 $psi.RedirectStandardError  = $true
 $psi.RedirectStandardOutput = $true
+$psi.EnvironmentVariables["PGPASSWORD"] = $password
 
 $proc = [System.Diagnostics.Process]::Start($psi)
 
