@@ -86,7 +86,9 @@ if (-not $password) {
 
 # --- Build connection URL and run pg_dump ---
 $encodedPassword = [Uri]::EscapeDataString($password)
-$dbUrl = "postgresql://postgres.rnxaimywzatywqdzgrzj:${encodedPassword}@aws-0-us-east-1.pooler.supabase.com:6543/postgres"
+# Use the direct connection (port 5432) -- pg_dump requires a session connection;
+# the transaction pooler (port 6543) does not support it.
+$dbUrl = "postgresql://postgres:${encodedPassword}@db.rnxaimywzatywqdzgrzj.supabase.co:5432/postgres"
 
 Write-Log "Connecting to Supabase (60 second timeout)..."
 

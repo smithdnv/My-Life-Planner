@@ -39,3 +39,12 @@ Using pg_dump: C:\Program Files\PostgreSQL\18\bin\pg_dump.exe
 Connecting to Supabase (60 second timeout)...
 [WARN] Backup failed (exit code: 1)
 RESULT: FAILED
+
+============================================================
+RUN: 2026-08-02 13:05:49
+============================================================
+Using pg_dump: C:\Program Files\PostgreSQL\18\bin\pg_dump.exe
+Connecting to Supabase (60 second timeout)...
+[WARN] Backup failed (exit code: 1)
+Error: pg_dump: error: connection to server at "aws-0-us-east-1.pooler.supabase.com" (44.208.221.186), port 6543 failed: FATAL:  (ENOTFOUND) tenant/user postgres.rnxaimywzatywqdzgrzj not found connection to server at "aws-0-us-east-1.pooler.supabase.com" (44.208.221.186), port 6543 failed: FATAL:  (ENOTFOUND) tenant/user postgres.rnxaimywzatywqdzgrzj not found
+RESULT: FAILED
