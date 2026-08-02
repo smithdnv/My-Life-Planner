@@ -31,3 +31,11 @@ Using pg_dump: C:\Program Files\PostgreSQL\18\bin\pg_dump.exe
 Connecting to Supabase (60 second timeout)...
 [WARN] Backup failed (exit code: 1)
 RESULT: FAILED
+
+============================================================
+RUN: 2026-08-02 13:03:45
+============================================================
+Using pg_dump: C:\Program Files\PostgreSQL\18\bin\pg_dump.exe
+Connecting to Supabase (60 second timeout)...
+[WARN] Backup failed (exit code: 1)
+RESULT: FAILED
