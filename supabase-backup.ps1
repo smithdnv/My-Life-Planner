@@ -93,25 +93,23 @@ Write-Log "Connecting to Supabase (60 second timeout)..."
 $tempErr = [System.IO.Path]::GetTempFileName()
 
 $psi = New-Object System.Diagnostics.ProcessStartInfo
-$psi.FileName        = $pgDump
-$psi.Arguments       = "`"$dbUrl`" -f `"$sqlFile`" --no-password"
+$psi.FileName        = "cmd.exe"
+$psi.Arguments       = "/c `"$pgDump`" `"$dbUrl`" -f `"$sqlFile`" --no-password 2>`"$tempErr`""
 $psi.UseShellExecute = $false
 $psi.CreateNoWindow  = $true
-$psi.RedirectStandardError = $true
 
 $proc = [System.Diagnostics.Process]::Start($psi)
-$errContent = ""
-
-$errTask = [System.Threading.Tasks.Task]::Run([System.Func[string]]{ $proc.StandardError.ReadToEnd() })
 
 if (-not $proc.WaitForExit(60000)) {
     $proc.Kill()
     Write-Log "[WARN] Timed out after 60 seconds and was cancelled."
     Add-Content -Path $logFile -Value "RESULT: TIMEOUT"
+    Remove-Item $tempErr -ErrorAction SilentlyContinue
     exit 1
 }
 
-$errContent = $errTask.Result.Trim()
+$errContent = (Get-Content $tempErr -Raw -ErrorAction SilentlyContinue).Trim()
+Remove-Item $tempErr -ErrorAction SilentlyContinue
 
 if ($proc.ExitCode -eq 0) {
     $size = (Get-Item $sqlFile -ErrorAction SilentlyContinue).Length

@@ -23,3 +23,11 @@ To fix: install PostgreSQL client tools from https://www.postgresql.org/download
 During install, you only need 'Command Line Tools' -- not the full server.
 After installing, reopen Command Prompt and run git-save again.
 RESULT: SKIPPED (pg_dump not installed)
+
+============================================================
+RUN: 2026-08-02 13:02:15
+============================================================
+Using pg_dump: C:\Program Files\PostgreSQL\18\bin\pg_dump.exe
+Connecting to Supabase (60 second timeout)...
+[WARN] Backup failed (exit code: 1)
+RESULT: FAILED
