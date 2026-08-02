@@ -67,6 +67,7 @@ echo.
 echo [3/3] Backing up Supabase database ^(60 second timeout^)...
 
 powershell -NonInteractive -ExecutionPolicy Bypass -File "supabase-backup.ps1" -datestamp "%datestamp%"
+
 if %errorlevel% neq 0 set ERRORS=1
 
 :: ─── SUMMARY ─────────────────────────────────────────────────

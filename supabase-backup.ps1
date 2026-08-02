@@ -1,6 +1,5 @@
 param(
-    [string]$datestamp,
-    [string]$projectId = "rnxaimywzatywqdzgrzj"
+    [string]$datestamp
 )
 
 $outputFile = "backups\supabase-$datestamp.sql"
@@ -12,7 +11,7 @@ Write-Host "      Running npx supabase db dump (60 second timeout)..."
 
 $psi = New-Object System.Diagnostics.ProcessStartInfo
 $psi.FileName               = "cmd.exe"
-$psi.Arguments              = "/c npx supabase db dump --project-id $projectId > `"$outputFile`" 2> `"$errorFile`""
+$psi.Arguments              = "/c npx supabase db dump --linked -f `"$outputFile`" 2> `"$errorFile`""
 $psi.UseShellExecute        = $false
 $psi.CreateNoWindow         = $true
 
