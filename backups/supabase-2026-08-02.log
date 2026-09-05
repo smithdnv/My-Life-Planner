@@ -111,3 +111,21 @@ Saved: backups\supabase-2026-08-02.json (408 bytes)
 [WARN] onboarding_sessions: HTTP 403: {"code":"42501","details":null,"hint":"Grant the required privileges to the current role with: GRANT SELECT ON public.onboarding_sessions TO service_role;","message":"permission denied for table onboarding_sessions"}
 [WARN] saved_views: HTTP 403: {"code":"42501","details":null,"hint":"Grant the required privileges to the current role with: GRANT SELECT ON public.saved_views TO service_role;","message":"permission denied for table saved_views"}
 RESULT: FAILED
+
+============================================================
+RUN: 2026-08-02 17:53:27
+============================================================
+Exporting via Supabase REST API...
+[OK] profiles: 1 rows
+[OK] life_domains: 8 rows
+[OK] life_goals: 0 rows
+[OK] priority_groups: 3 rows
+[OK] projects: 0 rows
+[OK] tasks: 0 rows
+[OK] task_history: 0 rows
+[OK] workspaces: 1 rows
+[OK] workspace_members: 1 rows
+[OK] onboarding_sessions: 0 rows
+[OK] saved_views: 0 rows
+Saved: backups\supabase-2026-08-02.json (4887 bytes)
+RESULT: SUCCESS
