@@ -8,7 +8,7 @@ const NAV = [
   { href: '/goals',      icon: '🎯', label: 'Goals'     },
   { href: '/projects',   icon: '📋', label: 'Projects'  },
   { href: '/priorities', icon: '⚡', label: 'Priorities'},
-  { href: '/onboarding', icon: '✨', label: 'Discovery' },
+  { href: '/settings',   icon: '⚙️', label: 'Settings'  },
 ]
 
 export default function MobileNav() {

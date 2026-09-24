@@ -12,6 +12,7 @@ const NAV = [
   { href: '/projects',    icon: '📋', label: 'Projects'      },
   { href: '/priorities',  icon: '⚡', label: 'Top Priorities'},
   { href: '/onboarding',  icon: '✨', label: 'Discovery'     },
+  { href: '/settings',    icon: '⚙️', label: 'Settings'      },
 ]
 
 export default function Sidebar({ profile }: { profile: Profile | null }) {

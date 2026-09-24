@@ -33,6 +33,7 @@ const TABLES = [
   'projects',
   'tasks',
   'task_history',
+  'change_history',
   'workspaces',
   'workspace_members',
   'onboarding_sessions',

@@ -1,0 +1,153 @@
+{
+  "exported_at": "2026-09-05T18:20:55.146Z",
+  "supabase_url": "https://rnxaimywzatywqdzgrzj.supabase.co",
+  "tables": {
+    "profiles": [
+      {
+        "id": "020688fd-374b-4d87-ab0c-f4caf3a3d847",
+        "user_id": "01777403-0e45-45a3-93d4-538de7f7a45a",
+        "full_name": "Douglas Smith",
+        "avatar_url": null,
+        "routine_description": "your normal routine",
+        "notification_time": "08:00:00",
+        "notifications_enabled": true,
+        "onboarding_completed": false,
+        "created_at": "2026-07-23T16:06:19.809093+00:00",
+        "updated_at": "2026-07-23T16:06:19.809093+00:00"
+      }
+    ],
+    "life_domains": [
+      {
+        "id": "e698577b-60c9-4cfa-be18-8cccc912a896",
+        "user_id": "01777403-0e45-45a3-93d4-538de7f7a45a",
+        "name": "Faith & Spirituality",
+        "icon": "✝️",
+        "color": "#7e22ce",
+        "sort_order": 1,
+        "is_visible": true,
+        "created_at": "2026-07-23T16:06:19.809093+00:00"
+      },
+      {
+        "id": "c96a2a47-4862-4262-960d-c4cff9878a93",
+        "user_id": "01777403-0e45-45a3-93d4-538de7f7a45a",
+        "name": "Health & Fitness",
+        "icon": "💪",
+        "color": "#16a34a",
+        "sort_order": 2,
+        "is_visible": true,
+        "created_at": "2026-07-23T16:06:19.809093+00:00"
+      },
+      {
+        "id": "afab481f-5859-47be-99a8-2c1f34b20785",
+        "user_id": "01777403-0e45-45a3-93d4-538de7f7a45a",
+        "name": "Relationships & Family",
+        "icon": "❤️",
+        "color": "#dc2626",
+        "sort_order": 3,
+        "is_visible": true,
+        "created_at": "2026-07-23T16:06:19.809093+00:00"
+      },
+      {
+        "id": "694b34fb-2465-49f6-a2c0-b8bffe90594d",
+        "user_id": "01777403-0e45-45a3-93d4-538de7f7a45a",
+        "name": "Career & Work",
+        "icon": "💼",
+        "color": "#0369a1",
+        "sort_order": 4,
+        "is_visible": true,
+        "created_at": "2026-07-23T16:06:19.809093+00:00"
+      },
+      {
+        "id": "be2c4694-7cf3-482a-9d9e-4b6904d6cacc",
+        "user_id": "01777403-0e45-45a3-93d4-538de7f7a45a",
+        "name": "Finances",
+        "icon": "💰",
+        "color": "#ca8a04",
+        "sort_order": 5,
+        "is_visible": true,
+        "created_at": "2026-07-23T16:06:19.809093+00:00"
+      },
+      {
+        "id": "a26889b0-f29f-4805-8cda-e9d90faa9612",
+        "user_id": "01777403-0e45-45a3-93d4-538de7f7a45a",
+        "name": "Personal Growth",
+        "icon": "🌱",
+        "color": "#059669",
+        "sort_order": 6,
+        "is_visible": true,
+        "created_at": "2026-07-23T16:06:19.809093+00:00"
+      },
+      {
+        "id": "19a347b8-90d3-4249-a4e7-ff3f66821cb0",
+        "user_id": "01777403-0e45-45a3-93d4-538de7f7a45a",
+        "name": "Fun & Hobbies",
+        "icon": "🎯",
+        "color": "#ea580c",
+        "sort_order": 7,
+        "is_visible": true,
+        "created_at": "2026-07-23T16:06:19.809093+00:00"
+      },
+      {
+        "id": "699218f1-786f-44d3-9d5a-64fae0d4ab9c",
+        "user_id": "01777403-0e45-45a3-93d4-538de7f7a45a",
+        "name": "Community & Legacy",
+        "icon": "🌍",
+        "color": "#0891b2",
+        "sort_order": 8,
+        "is_visible": true,
+        "created_at": "2026-07-23T16:06:19.809093+00:00"
+      }
+    ],
+    "life_goals": [],
+    "priority_groups": [
+      {
+        "id": "8384dfe9-38a8-4b54-b68c-e38a9b46b6c3",
+        "user_id": "01777403-0e45-45a3-93d4-538de7f7a45a",
+        "letter": "A",
+        "name": "Required",
+        "sort_order": 1,
+        "created_at": "2026-07-23T16:06:19.809093+00:00"
+      },
+      {
+        "id": "385bc591-74c1-46ce-a016-6cb28a6c3036",
+        "user_id": "01777403-0e45-45a3-93d4-538de7f7a45a",
+        "letter": "B",
+        "name": "Should-Do",
+        "sort_order": 2,
+        "created_at": "2026-07-23T16:06:19.809093+00:00"
+      },
+      {
+        "id": "3ad1017b-939c-4f61-a297-e012fea9dee2",
+        "user_id": "01777403-0e45-45a3-93d4-538de7f7a45a",
+        "letter": "C",
+        "name": "Nice-To-Have",
+        "sort_order": 3,
+        "created_at": "2026-07-23T16:06:19.809093+00:00"
+      }
+    ],
+    "projects": [],
+    "tasks": [],
+    "task_history": [],
+    "workspaces": [
+      {
+        "id": "4f70a530-58de-4514-b2c7-87de0c80813f",
+        "owner_id": "01777403-0e45-45a3-93d4-538de7f7a45a",
+        "name": "My Family",
+        "created_at": "2026-07-23T16:06:19.809093+00:00"
+      }
+    ],
+    "workspace_members": [
+      {
+        "id": "9adf5bf6-dc21-4721-a3f0-80df74bb05ff",
+        "workspace_id": "4f70a530-58de-4514-b2c7-87de0c80813f",
+        "user_id": "01777403-0e45-45a3-93d4-538de7f7a45a",
+        "role": "owner",
+        "invited_by": null,
+        "joined_at": "2026-07-23T16:06:19.809093+00:00",
+        "created_at": "2026-07-23T16:06:19.809093+00:00"
+      }
+    ],
+    "onboarding_sessions": [],
+    "saved_views": []
+  }
+}
