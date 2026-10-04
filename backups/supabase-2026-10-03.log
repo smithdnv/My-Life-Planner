@@ -17,3 +17,22 @@ Saved: backups\supabase-2026-10-03.json (436 bytes)
 [WARN] onboarding_sessions: fetch failed
 [WARN] saved_views: fetch failed
 RESULT: FAILED
+
+============================================================
+RUN: 2026-10-03 19:48:24
+============================================================
+Exporting via Supabase REST API...
+[OK] profiles: 1 rows
+[OK] life_domains: 8 rows
+[OK] life_goals: 0 rows
+[OK] priority_groups: 3 rows
+[OK] projects: 0 rows
+[OK] tasks: 0 rows
+[OK] task_history: 0 rows
+[OK] change_history: 0 rows
+[OK] workspaces: 1 rows
+[OK] workspace_members: 1 rows
+[OK] onboarding_sessions: 0 rows
+[OK] saved_views: 0 rows
+Saved: backups\supabase-2026-10-03.json (4939 bytes)
+RESULT: SUCCESS

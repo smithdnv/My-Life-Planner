@@ -17,6 +17,17 @@ Before we dive in, I want to ask you something open-ended:
 
 Take your time. There's no wrong answer.`
 
+const DOMAINS = [
+  { icon: '✝️', name: 'Faith & Spirituality' },
+  { icon: '💪', name: 'Health & Fitness' },
+  { icon: '❤️', name: 'Relationships & Family' },
+  { icon: '💼', name: 'Career & Work' },
+  { icon: '💰', name: 'Finances' },
+  { icon: '🌱', name: 'Personal Growth' },
+  { icon: '🎯', name: 'Fun & Hobbies' },
+  { icon: '🌍', name: 'Community & Legacy' },
+]
+
 export default function OnboardingPage() {
   const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState('')
@@ -174,6 +185,40 @@ export default function OnboardingPage() {
     router.push('/dashboard')
   }
 
+  async function quickReply(text: string) {
+    setInput('')
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) return
+    const userMsg: Message = { role: 'user', content: text, timestamp: new Date().toISOString() }
+    const newMessages = [...messages, userMsg]
+    setMessages(newMessages)
+    setLoading(true)
+    await persistMessages(user.id, newMessages)
+    try {
+      const res = await fetch('/api/ai', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          messages: newMessages.map(m => ({ role: m.role, content: m.content })),
+          context: `User has saved ${discoveredGoals.length} goals so far: ${discoveredGoals.map(g => g.title).join(', ')}`,
+        }),
+      })
+      const data = await res.json()
+      const aiMsg: Message = { role: 'assistant', content: data.message, timestamp: new Date().toISOString() }
+      const withAI = [...newMessages, aiMsg]
+      setMessages(withAI)
+      await persistMessages(user.id, withAI)
+      if (data.discoveredGoal) setSavingGoal(data.discoveredGoal)
+    } catch {
+      const errMsg: Message = { role: 'assistant', content: 'Sorry, I had trouble responding. Please try again.', timestamp: new Date().toISOString() }
+      const withErr = [...newMessages, errMsg]
+      setMessages(withErr)
+      await persistMessages(user.id, withErr)
+    } finally {
+      setLoading(false)
+    }
+  }
+
   function formatMessage(content: string) {
     return content
       .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
@@ -197,6 +242,31 @@ export default function OnboardingPage() {
           An AI-guided conversation to uncover your true goals.
           <span className="ml-2 text-green-600 font-medium">● Your conversation auto-saves</span>
         </p>
+
+        {/* Domain quick-start chips */}
+        <div className="mt-3">
+          <p className="text-xs text-slate-400 mb-2">Explore a life domain or ask for help getting started:</p>
+          <div className="flex flex-wrap gap-2">
+            {DOMAINS.map(d => (
+              <button
+                key={d.name}
+                onClick={() => quickReply(`I'd like to explore a goal in the area of ${d.name}`)}
+                disabled={loading}
+                className="flex items-center gap-1.5 text-xs px-3 py-1.5 bg-slate-50 hover:bg-primary-50 border border-slate-200 hover:border-primary-300 rounded-full transition-colors text-slate-700 hover:text-primary-700"
+              >
+                <span>{d.icon}</span> {d.name}
+              </button>
+            ))}
+            <button
+              onClick={() => quickReply("I don't know where to start. Can you help me figure out which area of my life to focus on first?")}
+              disabled={loading}
+              className="flex items-center gap-1.5 text-xs px-3 py-1.5 bg-amber-50 hover:bg-amber-100 border border-amber-200 rounded-full transition-colors text-amber-700 font-medium"
+            >
+              🤔 I don't know where to start — help me!
+            </button>
+          </div>
+        </div>
+
         {discoveredGoals.length > 0 && (
           <div className="mt-3 flex flex-wrap gap-2">
             {discoveredGoals.map((g, i) => (
@@ -259,25 +329,57 @@ export default function OnboardingPage() {
       {/* Input */}
       <div className="p-4 border-t border-slate-200 bg-white">
         {discoveredGoals.length > 0 && (
-          <div className="mb-3 flex justify-center">
+          <div className="mb-3 flex flex-wrap justify-center gap-2">
+            <button
+              onClick={() => quickReply("Let's work on another life goal")}
+              className="btn-secondary text-sm"
+              disabled={loading}
+            >
+              🎯 Let's work on another life goal
+            </button>
+            <button
+              onClick={() => quickReply("What other domains should I create a life goal for?")}
+              className="btn-secondary text-sm"
+              disabled={loading}
+            >
+              💡 What other domains should I explore?
+            </button>
             <button onClick={finishOnboarding} className="btn-secondary text-sm">
-              I'm done for now → Go to dashboard
+              ✅ I'm done for now → Go to dashboard
             </button>
           </div>
         )}
-        <form onSubmit={sendMessage} className="flex gap-3">
-          <input
-            type="text"
-            value={input}
-            onChange={e => setInput(e.target.value)}
-            placeholder="Share your thoughts…"
-            className="input flex-1"
-            disabled={loading}
-          />
-          <button type="submit" disabled={loading || !input.trim()} className="btn-primary px-5">
+        <form onSubmit={sendMessage} className="flex gap-3 items-end">
+          <div className="flex-1 relative">
+            <textarea
+              value={input}
+              onChange={e => setInput(e.target.value)}
+              onKeyDown={e => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                  e.preventDefault()
+                  if (!loading && input.trim()) sendMessage(e as any)
+                }
+              }}
+              placeholder="Share your thoughts… (Shift+Enter for new line)"
+              className="input flex-1 w-full resize-none min-h-[44px] max-h-40"
+              rows={1}
+              disabled={loading}
+              style={{ height: 'auto' }}
+              ref={el => {
+                if (el) {
+                  el.style.height = 'auto'
+                  el.style.height = Math.min(el.scrollHeight, 160) + 'px'
+                }
+              }}
+            />
+          </div>
+          <button type="submit" disabled={loading || !input.trim()} className="btn-primary px-5 py-2.5">
             Send
           </button>
         </form>
+        <p className="text-xs text-slate-400 mt-1.5 text-center">
+          Press Enter to send · Shift+Enter for a new line
+        </p>
       </div>
     </div>
   )

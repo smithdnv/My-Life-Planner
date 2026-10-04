@@ -19,8 +19,8 @@ export default async function DashboardPage() {
       .limit(10),
   ])
 
-  // Redirect to onboarding if not done
-  if (profile && !profile.onboarding_completed) redirect('/onboarding')
+  // New users go to the welcome/choose-your-path screen first
+  if (profile && !profile.onboarding_completed) redirect('/welcome')
 
   const firstName = profile?.full_name?.split(' ')[0] ?? 'there'
   const hour = new Date().getHours()
@@ -64,52 +64,69 @@ export default async function DashboardPage() {
           )}
         </div>
 
-        {/* Life Goals Summary */}
+        {/* Quick actions */}
         <div className="card p-6">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="font-semibold text-slate-900">🎯 Life Goals</h2>
-            <Link href="/goals" className="text-sm text-primary-600 hover:underline">Manage</Link>
-          </div>
-          {goals && goals.length > 0 ? (
-            <div className="space-y-3">
-              {goals.slice(0, 5).map((goal: any) => (
-                <div key={goal.id} className="flex items-start gap-3">
-                  <span className="text-lg flex-shrink-0">{goal.life_domains?.icon ?? '🎯'}</span>
-                  <div>
-                    <p className="text-sm font-medium text-slate-900">{goal.title}</p>
-                    <p className="text-xs text-slate-400">{goal.life_domains?.name}</p>
-                  </div>
-                </div>
-              ))}
-              {goals.length > 5 && (
-                <p className="text-xs text-slate-400 text-center">+{goals.length - 5} more</p>
-              )}
-            </div>
-          ) : (
-            <div className="text-center py-6">
-              <p className="text-slate-400 text-sm mb-3">No goals set yet.</p>
-              <Link href="/onboarding" className="btn-primary text-sm">
-                Discover my goals ✨
+          <h2 className="font-semibold text-slate-900 mb-4">🚀 Quick Actions</h2>
+          <div className="space-y-2">
+            {[
+              { href: '/projects', icon: '➕', label: 'New project' },
+              { href: '/priorities', icon: '📊', label: 'All priorities' },
+              { href: '/onboarding', icon: '✨', label: 'Goal discovery' },
+              { href: '/goals', icon: '🗺️', label: 'Manage my goals' },
+              { href: '/settings', icon: '⚙️', label: 'Settings' },
+            ].map(a => (
+              <Link key={a.href} href={a.href}
+                className="flex items-center gap-3 p-2.5 rounded-lg hover:bg-slate-50 transition-colors">
+                <span className="text-lg w-7 text-center">{a.icon}</span>
+                <span className="text-sm font-medium text-slate-700">{a.label}</span>
               </Link>
-            </div>
-          )}
+            ))}
+          </div>
         </div>
       </div>
 
-      {/* Quick actions */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-6">
-        {[
-          { href: '/projects', icon: '➕', label: 'New project' },
-          { href: '/priorities', icon: '📊', label: 'All priorities' },
-          { href: '/onboarding', icon: '✨', label: 'Goal discovery' },
-          { href: '/goals', icon: '🗺️', label: 'My goals' },
-        ].map(a => (
-          <Link key={a.href} href={a.href}
-            className="card p-4 flex flex-col items-center gap-2 hover:border-primary-200 hover:shadow-md transition-all text-center">
-            <span className="text-2xl">{a.icon}</span>
-            <span className="text-xs font-medium text-slate-600">{a.label}</span>
-          </Link>
-        ))}
+      {/* Life Goals — full width summary */}
+      <div className="card p-6 mt-6">
+        <div className="flex items-center justify-between mb-5">
+          <div>
+            <h2 className="font-semibold text-slate-900 text-lg">🎯 My Life Goals</h2>
+            <p className="text-xs text-slate-400 mt-0.5">The things that matter most to you</p>
+          </div>
+          <div className="flex gap-2">
+            <Link href="/onboarding" className="btn-secondary text-sm">✨ Discover more</Link>
+            <Link href="/goals" className="btn-primary text-sm">Manage all</Link>
+          </div>
+        </div>
+
+        {goals && goals.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {goals.map((goal: any) => (
+              <div key={goal.id}
+                className="bg-slate-50 rounded-xl p-4 border border-slate-100 hover:border-primary-200 hover:shadow-sm transition-all">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-xl">{goal.life_domains?.icon ?? '🎯'}</span>
+                  <span className="text-xs font-medium px-2 py-0.5 rounded-full text-white"
+                    style={{ backgroundColor: goal.life_domains?.color ?? '#0ea5e9' }}>
+                    {goal.life_domains?.name ?? 'General'}
+                  </span>
+                </div>
+                <p className="text-sm font-semibold text-slate-900 mb-1">{goal.title}</p>
+                {goal.why && (
+                  <p className="text-xs text-slate-500 italic line-clamp-2">"{goal.why}"</p>
+                )}
+                <div className="flex items-center justify-between mt-3">
+                  <span className="text-xs text-slate-400 capitalize">{goal.time_horizon}</span>
+                  <Link href="/onboarding" className="text-xs text-primary-600 hover:underline">Refine →</Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-10">
+            <p className="text-slate-400 mb-4">You haven't set any life goals yet.</p>
+            <Link href="/onboarding" className="btn-primary">✨ Discover my goals</Link>
+          </div>
+        )}
       </div>
     </div>
   )
