@@ -35,6 +35,7 @@ export default function OnboardingPage() {
   const [initializing, setInitializing] = useState(true)
   const [discoveredGoals, setDiscoveredGoals] = useState<DiscoveredGoal[]>([])
   const [savingGoal, setSavingGoal] = useState<DiscoveredGoal | null>(null)
+  const [saveError, setSaveError] = useState<string | null>(null)
   const bottomRef = useRef<HTMLDivElement>(null)
   const supabase = createClient()
   const router = useRouter()
@@ -144,9 +145,11 @@ export default function OnboardingPage() {
   }
 
   async function saveGoal(goal: DiscoveredGoal) {
+    setSaveError(null)
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) return
 
+    // Look up the matching life domain for this user
     const { data: domains } = await supabase
       .from('life_domains')
       .select('*')
@@ -154,15 +157,22 @@ export default function OnboardingPage() {
       .ilike('name', `%${goal.domain.split(' ')[0]}%`)
       .limit(1)
 
-    await supabase.from('life_goals').insert({
+    const { error } = await supabase.from('life_goals').insert({
       user_id: user.id,
       domain_id: domains?.[0]?.id ?? null,
       title: goal.title,
-      why: goal.why,
-      time_horizon: goal.time_horizon,
+      why: goal.why ?? '',
+      time_horizon: goal.time_horizon ?? 'yearly',
       status: 'active',
     })
 
+    if (error) {
+      console.error('Failed to save goal:', error)
+      setSaveError(`Couldn't save goal: ${error.message}`)
+      return
+    }
+
+    // Only update UI state after confirmed DB success
     setDiscoveredGoals(prev => [...prev, goal])
     setSavingGoal(null)
 
@@ -173,9 +183,7 @@ export default function OnboardingPage() {
     }
     const updated = [...messages, confirmMsg]
     setMessages(updated)
-
-    const { data: { user: u } } = await supabase.auth.getUser()
-    if (u) await persistMessages(u.id, updated)
+    await persistMessages(user.id, updated)
   }
 
   async function finishOnboarding() {
@@ -312,11 +320,16 @@ export default function OnboardingPage() {
             <p className="text-sm font-semibold text-green-800 mb-1">🎯 Goal discovered!</p>
             <p className="text-sm text-green-700 font-medium">"{savingGoal.title}"</p>
             <p className="text-xs text-green-600 mt-1">Why it matters: {savingGoal.why}</p>
+            {saveError && (
+              <p className="text-xs text-red-600 mt-2 bg-red-50 border border-red-200 rounded p-2">
+                ⚠️ {saveError}
+              </p>
+            )}
             <div className="flex gap-2 mt-3">
               <button onClick={() => saveGoal(savingGoal)} className="btn-primary text-sm py-1.5">
                 ✅ Save this goal
               </button>
-              <button onClick={() => setSavingGoal(null)} className="btn-secondary text-sm py-1.5">
+              <button onClick={() => { setSavingGoal(null); setSaveError(null) }} className="btn-secondary text-sm py-1.5">
                 Refine it
               </button>
             </div>
