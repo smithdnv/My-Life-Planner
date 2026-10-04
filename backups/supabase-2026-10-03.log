@@ -1,0 +1,19 @@
+
+============================================================
+RUN: 2026-10-03 19:35:47
+============================================================
+Exporting via Supabase REST API...
+Saved: backups\supabase-2026-10-03.json (436 bytes)
+[WARN] profiles: fetch failed
+[WARN] life_domains: fetch failed
+[WARN] life_goals: fetch failed
+[WARN] priority_groups: fetch failed
+[WARN] projects: fetch failed
+[WARN] tasks: fetch failed
+[WARN] task_history: fetch failed
+[WARN] change_history: fetch failed
+[WARN] workspaces: fetch failed
+[WARN] workspace_members: fetch failed
+[WARN] onboarding_sessions: fetch failed
+[WARN] saved_views: fetch failed
+RESULT: FAILED
