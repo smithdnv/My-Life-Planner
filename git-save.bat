@@ -8,9 +8,8 @@ if "%MSG%"=="" set MSG=manual save
 
 set ERRORS=0
 
-:: Get current date in YYYY-MM-DD format
-for /f "tokens=2 delims==" %%I in ('wmic os get localdatetime /value') do set datetime=%%I
-set datestamp=%datetime:~0,4%-%datetime:~4,2%-%datetime:~6,2%
+:: Get current date in YYYY-MM-DD format (using PowerShell -- wmic is deprecated on Win11)
+for /f %%i in ('powershell -NoProfile -Command "Get-Date -Format yyyy-MM-dd"') do set datestamp=%%i
 
 echo ============================================
 echo  My Life Planner — git-save

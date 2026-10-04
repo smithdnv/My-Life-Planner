@@ -2,6 +2,9 @@ param(
     [string]$datestamp
 )
 
+# Fallback in case the bat file couldn't compute the date (e.g. wmic deprecated)
+if (-not $datestamp) { $datestamp = Get-Date -Format "yyyy-MM-dd" }
+
 $backupFile = "backups\supabase-$datestamp.json"
 $logFile    = "backups\supabase-$datestamp.log"
 $runTime    = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
