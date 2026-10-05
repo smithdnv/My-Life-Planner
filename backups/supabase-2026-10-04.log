@@ -55,3 +55,22 @@ Exporting via Supabase REST API...
 [OK] saved_views: 0 rows
 Saved: backups\supabase-2026-10-04.json (7736 bytes)
 RESULT: SUCCESS
+
+============================================================
+RUN: 2026-10-04 20:56:53
+============================================================
+Exporting via Supabase REST API...
+[OK] profiles: 1 rows
+[OK] life_domains: 8 rows
+[OK] life_goals: 7 rows
+[OK] priority_groups: 3 rows
+[OK] projects: 1 rows
+[OK] tasks: 1 rows
+[OK] task_history: 0 rows
+[OK] change_history: 0 rows
+[OK] workspaces: 1 rows
+[OK] workspace_members: 1 rows
+[OK] onboarding_sessions: 0 rows
+[OK] saved_views: 0 rows
+Saved: backups\supabase-2026-10-04.json (11433 bytes)
+RESULT: SUCCESS

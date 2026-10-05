@@ -1,5 +1,5 @@
 {
-  "exported_at": "2026-10-05T00:10:45.464Z",
+  "exported_at": "2026-10-05T01:56:53.653Z",
   "supabase_url": "https://rnxaimywzatywqdzgrzj.supabase.co",
   "tables": {
     "profiles": [
@@ -11,7 +11,7 @@
         "routine_description": "your normal routine",
         "notification_time": "08:00:00",
         "notifications_enabled": true,
-        "onboarding_completed": false,
+        "onboarding_completed": true,
         "created_at": "2026-07-23T16:06:19.809093+00:00",
         "updated_at": "2026-07-23T16:06:19.809093+00:00",
         "undo_limit": 50
@@ -151,6 +151,45 @@
         "sort_order": 0,
         "created_at": "2026-10-04T15:49:18.529191+00:00",
         "updated_at": "2026-10-04T15:49:18.529191+00:00"
+      },
+      {
+        "id": "2ac92d66-fdea-41bd-b912-5a895f4fad0f",
+        "user_id": "01777403-0e45-45a3-93d4-538de7f7a45a",
+        "domain_id": "afab481f-5859-47be-99a8-2c1f34b20785",
+        "title": "Develop at least 5 close, mutually supportive friendships (spiritual brothers)",
+        "why": "To have a wider circle of emotional and spiritual support beyond my wife — brothers I can be fully honest with about my struggles, including struggles within my marriage, who walk with me in faith and life, and whom I can support in return. Build toward 5+ with 2 close friends in year one, 2 more in year two, nurtured through meaningful weekly connection.",
+        "vision_statement": null,
+        "time_horizon": "longterm",
+        "status": "active",
+        "sort_order": 0,
+        "created_at": "2026-10-05T01:34:28.706909+00:00",
+        "updated_at": "2026-10-05T01:34:28.706909+00:00"
+      },
+      {
+        "id": "55730c43-b146-472e-9ba9-17e7d4a8e4bd",
+        "user_id": "01777403-0e45-45a3-93d4-538de7f7a45a",
+        "domain_id": "afab481f-5859-47be-99a8-2c1f34b20785",
+        "title": "Own a home on 1.5+ acres within 30 minutes of our children in Justin, TX",
+        "why": "To cultivate close relationships with my children and grandchildren, and to have space for a large garden and growing trees that can be transplanted to the Hillsboro retreat land — moving in before our lease ends 3/30/2027",
+        "vision_statement": null,
+        "time_horizon": "longterm",
+        "status": "active",
+        "sort_order": 0,
+        "created_at": "2026-10-05T01:42:06.950699+00:00",
+        "updated_at": "2026-10-05T01:42:06.950699+00:00"
+      },
+      {
+        "id": "a4e96e9f-195b-4051-af94-2b6f27ace9ee",
+        "user_id": "01777403-0e45-45a3-93d4-538de7f7a45a",
+        "domain_id": "c96a2a47-4862-4262-960d-c4cff9878a93",
+        "title": "Build a sustainable healthy lifestyle — exercise 3–4x/week and eat natural, whole foods",
+        "why": "To steward my body and mind well so I can stay present and active with my children and grandchildren for decades, and have the vitality to fulfill the purposes God has prepared for me (Eph 2:10)",
+        "vision_statement": null,
+        "time_horizon": "longterm",
+        "status": "active",
+        "sort_order": 0,
+        "created_at": "2026-10-05T01:49:36.389339+00:00",
+        "updated_at": "2026-10-05T01:49:36.389339+00:00"
       }
     ],
     "priority_groups": [
@@ -179,8 +218,46 @@
         "created_at": "2026-07-23T16:06:19.809093+00:00"
       }
     ],
-    "projects": [],
-    "tasks": [],
+    "projects": [
+      {
+        "id": "819284e4-cb0a-4087-8c06-70d5baacfc2d",
+        "user_id": "01777403-0e45-45a3-93d4-538de7f7a45a",
+        "goal_id": null,
+        "parent_project_id": null,
+        "title": "Test project 1",
+        "description": "testing the project features",
+        "priority_group": "A",
+        "priority_number": 1,
+        "status": "active",
+        "time_horizon": "monthly",
+        "due_date": null,
+        "sort_order": 0,
+        "created_at": "2026-10-05T00:55:17.283941+00:00",
+        "updated_at": "2026-10-05T01:28:06.119+00:00",
+        "design_docs": ""
+      }
+    ],
+    "tasks": [
+      {
+        "id": "0b9ed68b-4c49-46f3-83d1-d110d5dd2272",
+        "project_id": "819284e4-cb0a-4087-8c06-70d5baacfc2d",
+        "assigned_to": null,
+        "title": "Test task 1 in project 1",
+        "description": null,
+        "priority_group": "B",
+        "priority_number": 1,
+        "status": "completed",
+        "time_horizon": "weekly",
+        "due_date": null,
+        "is_recurring": false,
+        "recurrence_rule": null,
+        "blocked_by": [],
+        "completed_at": "2026-10-05T00:56:13.929+00:00",
+        "sort_order": 0,
+        "created_at": "2026-10-05T00:55:45.37544+00:00",
+        "updated_at": "2026-10-05T00:56:13.929+00:00"
+      }
+    ],
     "task_history": [],
     "change_history": [],
     "workspaces": [
