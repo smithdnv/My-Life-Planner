@@ -1,5 +1,5 @@
 {
-  "exported_at": "2026-10-04T06:33:07.709Z",
+  "exported_at": "2026-10-05T00:10:45.464Z",
   "supabase_url": "https://rnxaimywzatywqdzgrzj.supabase.co",
   "tables": {
     "profiles": [
@@ -99,7 +99,60 @@
         "created_at": "2026-07-23T16:06:19.809093+00:00"
       }
     ],
-    "life_goals": [],
+    "life_goals": [
+      {
+        "id": "a9f827c8-922d-47b5-8921-6338a4ac8383",
+        "user_id": "01777403-0e45-45a3-93d4-538de7f7a45a",
+        "domain_id": "e698577b-60c9-4cfa-be18-8cccc912a896",
+        "title": "Cultivate a wholehearted, intimate relationship with God",
+        "why": "To love God with all my heart, soul, and strength through daily prayer, worship, fasting, and Bible study — and in the process, discover and learn to walk in the good works He's prepared for me (Deut. 6; Eph. 2:10).",
+        "vision_statement": null,
+        "time_horizon": "longterm",
+        "status": "active",
+        "sort_order": 0,
+        "created_at": "2026-10-04T15:43:41.34243+00:00",
+        "updated_at": "2026-10-04T15:43:41.34243+00:00"
+      },
+      {
+        "id": "b3669d51-d3f6-4894-bb0a-625f3bc8e069",
+        "user_id": "01777403-0e45-45a3-93d4-538de7f7a45a",
+        "domain_id": "699218f1-786f-44d3-9d5a-64fae0d4ab9c",
+        "title": "Develop Hillsboro land into a restful retreat with tiny home and renovated shed",
+        "why": "To create a place of rest for my family, friends, and weary people in ministry, while generating Airbnb income",
+        "vision_statement": null,
+        "time_horizon": "longterm",
+        "status": "active",
+        "sort_order": 0,
+        "created_at": "2026-10-04T15:48:08.311231+00:00",
+        "updated_at": "2026-10-04T15:48:08.311231+00:00"
+      },
+      {
+        "id": "f7c38d9c-d1f3-450c-b75c-823d740f854b",
+        "user_id": "01777403-0e45-45a3-93d4-538de7f7a45a",
+        "domain_id": "afab481f-5859-47be-99a8-2c1f34b20785",
+        "title": "Cultivate close, mutually loving relationships with all my children and grandchildren",
+        "why": "To pursue genuine connection even with those who seem distant, and earn a respected, invited place to speak into their lives—especially my grandchildren—in an honorable way.",
+        "vision_statement": null,
+        "time_horizon": "longterm",
+        "status": "active",
+        "sort_order": 0,
+        "created_at": "2026-10-04T15:48:54.58915+00:00",
+        "updated_at": "2026-10-04T15:48:54.58915+00:00"
+      },
+      {
+        "id": "15177664-7cd5-484a-9007-f3d32e859eba",
+        "user_id": "01777403-0e45-45a3-93d4-538de7f7a45a",
+        "domain_id": "be2c4694-7cf3-482a-9d9e-4b6904d6cacc",
+        "title": "Achieve financial freedom — $240K/year sustainable income, debt-free within 5 years",
+        "why": "To be freed from financial worry and have the time and presence to pour into the people and purposes I love most",
+        "vision_statement": null,
+        "time_horizon": "longterm",
+        "status": "active",
+        "sort_order": 0,
+        "created_at": "2026-10-04T15:49:18.529191+00:00",
+        "updated_at": "2026-10-04T15:49:18.529191+00:00"
+      }
+    ],
     "priority_groups": [
       {
         "id": "8384dfe9-38a8-4b54-b68c-e38a9b46b6c3",
